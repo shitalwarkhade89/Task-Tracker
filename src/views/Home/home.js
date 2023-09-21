@@ -1,4 +1,4 @@
-import react, { useState } from 'react'
+import react, {useEffect, useState} from 'react'
 import Task from "./../../components/Task/Task"
 import "./Home.css"
 
@@ -15,6 +15,14 @@ const Home = () => {
     const [title, setTitle] = useState('');
     const [description,setDescription] = useState('');
     const [priority,setpriority] = useState('');
+   useEffect(()=>{
+    const list = JSON.parse(localStorage.getItem('pinklist'));
+    setTaskList(list)
+   },[])
+
+    const saveListToLocalStorage =(tasks) => {
+        localStorage.setItem('pinklist',JSON.stringify(tasks))
+    }
     const AddTaskToList =() => {
         const randomId = Math.floor(Math.random
             ()*1000);
@@ -24,10 +32,30 @@ const Home = () => {
             description:description,
             priority:priority,
         }
-        setTaskList([...taskList,obj])
+
+        const newTaskList =[...taskList,obj]
+
+        
+        setTaskList(newTaskList)
         setTitle('');
         setpriority('');
         setDescription('');
+        saveListToLocalStorage(newTaskList);
+    }
+    const removeTaskFromList =(id) => {
+       let index;
+       taskList.forEach((task, i) =>{
+        if(task.id===id){
+            index =i
+        }
+       })
+
+        const tempArry = taskList;
+        tempArry.splice(index,1);
+
+        setTaskList([...tempArry])
+
+        saveListToLocalStorage(tempArry)
     }
 
     return (
@@ -40,7 +68,11 @@ const Home = () => {
                         taskList.map((taskItem, index) => {
                             const { id, title, description, priority } = taskItem;
 
-                            return <Task id={id} title={title} description={description} priority={priority} />
+                            return <Task id={id} title={title} description={description} priority={priority}
+                            key={index}
+                            removeTaskFromList={removeTaskFromList}
+                           
+                             />
                         })
                     }
 
