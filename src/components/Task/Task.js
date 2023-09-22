@@ -1,6 +1,5 @@
-import react from 'react'
 import "./Task.css"
-const Task= ({id, title,description ,priority,removeTaskFromList }) => {
+const Task= ({id, title,description ,priority,removeTaskFromList,setTaskEditable }) => {
  return (
     <div className='task-continer'>
         <h1 className='task-title'>{title}</h1>
@@ -11,8 +10,16 @@ const Task= ({id, title,description ,priority,removeTaskFromList }) => {
 
        }
       }>❌</span>
+
+
+<span className='task-edit-icon' onClick={() => {
+   setTaskEditable(id);   
+
+       }
+      }>✏️</span>
     </div>
+    
  )   
 
 }
-export default Task
+export default Task;
