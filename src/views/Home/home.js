@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react'; // Import React
+import React, { useEffect, useState } from 'react';
 import showToast from 'crunchy-toast';
 import Task from './../../components/Task/Task';
 import { saveListToLocalStorage } from '../../util/localStorage';
@@ -28,20 +27,41 @@ const Home = () => {
     const clearInputFields = () => {
         setTitle('');
         setDescription('');
-        setPriority(''); // Corrected variable name
+        setPriority('');
     };
 
     const findTaskIndexById = (taskId) => {
-        return taskList.findIndex((task) => task.id === taskId); // Use findIndex for a simpler and more efficient approach
+        return taskList.findIndex((task) => task.id === taskId);
     };
+    const checkRequiredFields = () => {
+        if(!title){
+            showToast('Title is required !','alert',3000);
+            return false;
+        }
+        if(!description){
+            showToast('description is required !','alert',3000);
+            return false;
+        }
+        if(!priority){
+            showToast('Priority is required !','alert',3000);
+            return false;
+        }
+            return true;
+    }
 
     const AddTaskToList = () => {
+        if(checkRequiredFields() === false){
+            return;
+        }
+
+
+
         const randomId = Math.floor(Math.random() * 1000);
         const obj = {
             id: randomId,
             title: title,
             description: description,
-            priority: priority, // Corrected variable name
+            priority: priority,
         };
 
         const newTaskList = [...taskList, obj];
@@ -79,6 +99,9 @@ const Home = () => {
     };
 
     const UpdateTask = () => {
+        if(checkRequiredFields() === false){
+            return;
+        }
         const indexToUpdate = findTaskIndexById(id);
         const tempArray = [...taskList];
         tempArray[indexToUpdate] = {
@@ -152,7 +175,7 @@ const Home = () => {
                                 type='text'
                                 value={priority}
                                 onChange={(e) => {
-                                    setPriority(e.target.value); // Corrected variable name
+                                    setPriority(e.target.value);
                                 }}
                                 placeholder='Enter priority'
                                 className='task-input'
