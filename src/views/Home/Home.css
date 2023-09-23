@@ -41,5 +41,13 @@
 .d-flex-btn{
     display: flex;
     justify-content: space-around;
-    
+
+}
+.task-container{
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.task-container::-webkit-scrollbar{
+    width: 5px;
 }
