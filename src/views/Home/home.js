@@ -157,7 +157,7 @@ const Home = () => {
                                 onChange={(e) => {
                                     setTitle(e.target.value);
                                 }}
-                                placeholder='enter Title'
+                                placeholder='Enter Title'
                                 className='task-input'
                             />
 
